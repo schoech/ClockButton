@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Clock Button (Safari Extension Global Page)</title>
+<meta charset="utf-8" />
+<script type="text/javascript">
+/* Clock Button by Brandon Schoech
+ * www.schoech.net/clockbutton */
+
+var MS_PER_S = 1000;
+var VERSION = '1.1.1';
+var DEBUG = false;
+
+var badge = safari.extension.settings.showBadge;
+var notation = safari.extension.settings.hourNotation;
+
+var d;
+var h;
+var m;
+var i;
+var j;
+var time;
+var timeValues;
+var item;
+var toolbarItemArr;
+var theTimeout;
+
+safari.application.addEventListener('validate', function(event) {
+  clearTimeout(theTimeout);
+  updateToolbarItem();
+}, false);
+
+safari.extension.settings.addEventListener('change', function(event) {
+  badge = safari.extension.settings.showBadge;
+  notation = safari.extension.settings.hourNotation;
+  clearTimeout(theTimeout);
+  updateToolbarItem();
+}, false);
+
+updateToolbarItem();
+
+function getCurrentTime() {
+  d = new Date();
+  
+  timeValues = {
+    hr: d.getHours(),
+    min: d.getMinutes(),
+    sec: d.getSeconds(),
+    not: notation,
+    
+    fixedHr: function(n) {
+      h = this.hr;
+      if (n == 12) {
+        h = ((h == 0) || ((h >= 13) && (h <= 23)))
+                ? Math.abs(h - 12)
+                : h;
+      }
+      return h.toString();
+    },
+    fixedMin: function() {
+      m = this.min;
+      m = (m <= 9) ? '0' + m : m;
+      return m.toString();
+    },
+    ampm: function() {
+      if (this.not == 12) {
+        return ((this.hr >= 13) ? ' PM' : ' AM');
+      } else {
+        return '';
+      }
+    }
+  };
+  return timeValues;
+}
+
+function updateToolbarItem() {
+  if (DEBUG) console.log('Clock Button v' + VERSION + ': Refreshed button!');
+  time = getCurrentTime();
+  toolbarItemArr = safari.extension.toolbarItems;
+  
+  for (i = 0, j = toolbarItemArr.length; i < j; ++i) {
+    item = toolbarItemArr[i];
+    if (item.identifier = 'clockToolbarItem') {
+      // Interface updates
+      item.badge = (safari.extension.settings.showBadge)
+              ? time.fixedHr(time.not) + '' + time.fixedMin() : null;
+      item.image = safari.extension.baseURI + 'i/'
+              + time.fixedHr(12) + '/' + time.fixedMin() + '.png';
+      item.toolTip = time.fixedHr(time.not)
+              + ':' + time.fixedMin() + time.ampm();
+    }
+  }
+  theTimeout = setTimeout(updateToolbarItem, (60 - time.sec) * MS_PER_S);
+}
+</script>
+</head>
+<body></body>
+</html>

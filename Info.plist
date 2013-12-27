@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Brandon Schoech</string>
+	<key>Builder Version</key>
+	<string>9537.73.11</string>
+	<key>CFBundleDisplayName</key>
+	<string>Clock Button</string>
+	<key>CFBundleIdentifier</key>
+	<string>net.schoech.clockbutton</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1.1</string>
+	<key>CFBundleVersion</key>
+	<string>111</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Global Page</key>
+		<string>global.html</string>
+		<key>Toolbar Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>doClockButton</string>
+				<key>Identifier</key>
+				<string>clockToolbarItem</string>
+				<key>Image</key>
+				<string>default.png</string>
+				<key>Label</key>
+				<string>Clock</string>
+				<key>Palette Label</key>
+				<string>Clock</string>
+				<key>Tool Tip</key>
+				<string>Clock</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict/>
+	</dict>
+	<key>Description</key>
+	<string>A clock in your toolbar.</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict/>
+	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://www.schoech.net/clockbutton/manifest.plist</string>
+	<key>Website</key>
+	<string>http://www.schoech.net/clockbutton</string>
+</dict>
+</plist>

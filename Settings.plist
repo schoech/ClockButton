@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>DefaultValue</key>
+		<false/>
+		<key>Key</key>
+		<string>showBadge</string>
+		<key>Title</key>
+		<string>Show badge on toolbar button</string>
+		<key>Titles</key>
+		<array>
+			<string></string>
+		</array>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<real>12</real>
+		<key>Key</key>
+		<string>hourNotation</string>
+		<key>Title</key>
+		<string>Digital notation</string>
+		<key>Titles</key>
+		<array>
+			<string>24-hour</string>
+			<string>12-hour</string>
+		</array>
+		<key>Type</key>
+		<string>RadioButtons</string>
+		<key>Values</key>
+		<array>
+			<real>24</real>
+			<real>12</real>
+		</array>
+	</dict>
+</array>
+</plist>
