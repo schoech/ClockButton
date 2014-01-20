@@ -1,4 +1,4 @@
-# Clock Button v1.1
+# Clock Button v1.2
 
 Clock Button is an extension for Safari that adds a live analog clock to the toolbar.
 

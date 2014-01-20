@@ -2,28 +2,61 @@
 <html>
 <head>
 <title>Clock Button (Safari Extension Global Page)</title>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <script type="text/javascript">
-/* Clock Button by Brandon Schoech
- * www.schoech.net/clockbutton */
+// Clock Button by Brandon Schoech
+// www.schoech.net/clockbutton
+// License: GPLv3
 
+var VERSION = '1.2';
 var MS_PER_S = 1000;
-var VERSION = '1.1.1';
-var DEBUG = false;
 
 var badge = safari.extension.settings.showBadge;
 var notation = safari.extension.settings.hourNotation;
 
-var d;
-var h;
-var m;
-var i;
-var j;
-var time;
-var timeValues;
-var item;
-var toolbarItemArr;
 var theTimeout;
+
+function getCurrentTime() {
+  var d = new Date();
+  
+  var timeValues = {
+    hr: d.getHours(),
+    min: d.getMinutes(),
+    sec: d.getSeconds(),
+    not: notation,
+    
+    fixedHr: function(n) {
+      var h = this.hr;
+      return ((n == 12) && ((h == 0) || (h > 12))) ? Math.abs(h - 12).toString() : h.toString();
+    },
+    fixedMin: function() {
+      var m = this.min;
+      return (m <= 9) ? '0' + m.toString() : m.toString();
+    },
+    ampm: function() {
+      return (this.not == 12) ? ((this.hr > 11) ? ' PM' : ' AM') : '';
+    }
+  };
+  return timeValues;
+}
+
+function updateToolbarItem() {
+  var time = getCurrentTime();
+  var itemArray = safari.extension.toolbarItems;
+  
+  var i, j;
+  var item;
+  for (i = 0, j = itemArray.length; i < j; i++) {
+    item = itemArray[i];
+    if (item.identifier = 'clockToolbarItem') {
+      // Interface updates
+      item.badge = (safari.extension.settings.showBadge) ? time.fixedHr(time.not) + '' + time.fixedMin() : null;
+      item.image = safari.extension.baseURI + 'i/' + time.fixedHr(12) + '/' + time.fixedMin() + '.png';
+      item.toolTip = time.fixedHr(time.not) + ':' + time.fixedMin() + time.ampm();
+    }
+  }
+  theTimeout = setTimeout(updateToolbarItem, (60 - time.sec) * MS_PER_S);
+}
 
 safari.application.addEventListener('validate', function(event) {
   clearTimeout(theTimeout);
@@ -38,60 +71,6 @@ safari.extension.settings.addEventListener('change', function(event) {
 }, false);
 
 updateToolbarItem();
-
-function getCurrentTime() {
-  d = new Date();
-  
-  timeValues = {
-    hr: d.getHours(),
-    min: d.getMinutes(),
-    sec: d.getSeconds(),
-    not: notation,
-    
-    fixedHr: function(n) {
-      h = this.hr;
-      if (n == 12) {
-        h = ((h == 0) || ((h >= 13) && (h <= 23)))
-                ? Math.abs(h - 12)
-                : h;
-      }
-      return h.toString();
-    },
-    fixedMin: function() {
-      m = this.min;
-      m = (m <= 9) ? '0' + m : m;
-      return m.toString();
-    },
-    ampm: function() {
-      if (this.not == 12) {
-        return ((this.hr >= 13) ? ' PM' : ' AM');
-      } else {
-        return '';
-      }
-    }
-  };
-  return timeValues;
-}
-
-function updateToolbarItem() {
-  if (DEBUG) console.log('Clock Button v' + VERSION + ': Refreshed button!');
-  time = getCurrentTime();
-  toolbarItemArr = safari.extension.toolbarItems;
-  
-  for (i = 0, j = toolbarItemArr.length; i < j; ++i) {
-    item = toolbarItemArr[i];
-    if (item.identifier = 'clockToolbarItem') {
-      // Interface updates
-      item.badge = (safari.extension.settings.showBadge)
-              ? time.fixedHr(time.not) + '' + time.fixedMin() : null;
-      item.image = safari.extension.baseURI + 'i/'
-              + time.fixedHr(12) + '/' + time.fixedMin() + '.png';
-      item.toolTip = time.fixedHr(time.not)
-              + ':' + time.fixedMin() + time.ampm();
-    }
-  }
-  theTimeout = setTimeout(updateToolbarItem, (60 - time.sec) * MS_PER_S);
-}
 </script>
 </head>
 <body></body>
